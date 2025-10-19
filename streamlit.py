@@ -41,7 +41,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     .metric-card {
-        background-color: #f0f2f6;
+        background-color: #8fa2c7;
         padding: 1rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
@@ -426,3 +426,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
