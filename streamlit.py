@@ -212,7 +212,8 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             st.subheader("Sample Text (First Page)")
-            st.text_area("", st.session_state.df['text'].iloc[0][:500] + "...", height=200, key="sample1")
+            st.markdown(f"<pre>{st.session_state.df['text'].iloc[0][:500]}...</pre>", unsafe_allow_html=True)
+
 
         
         with col2:
@@ -408,3 +409,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
