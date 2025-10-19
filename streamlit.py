@@ -47,7 +47,7 @@ st.markdown("""
         margin: 0.5rem 0;
     }
     .readonly-box {
-        background-color: #f0f2f6;
+        background-color: #ad8bc4;
         border: 1px solid #ccc;
         border-radius: 6px;
         padding: 10px;
@@ -426,4 +426,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
