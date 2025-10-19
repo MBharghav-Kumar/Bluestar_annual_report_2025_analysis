@@ -213,10 +213,12 @@ def main():
         with col1:
             st.subheader("Sample Text (First Page)")
             st.text_area("", st.session_state.df['text'].iloc[0][:500] + "...", height=200, key="sample1")
+
         
         with col2:
             st.subheader("Cleaned Text (First Page)")
-            st.text_area("", st.session_state.df['clean_text'].iloc[0][:500] + "...", height=200, key="sample2")
+            st.markdown(f"<pre>{st.session_state.df['clean_text'].iloc[0][:500]}...</pre>", unsafe_allow_html=True)
+
     
     with tab2:
         st.markdown('<h2 class="sub-header">Sentiment Analysis</h2>', unsafe_allow_html=True)
@@ -404,4 +406,5 @@ def main():
                 st.dataframe(st.session_state.topic_df, use_container_width=True)
 
 if __name__ == "__main__":
+
     main()
