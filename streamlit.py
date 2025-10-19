@@ -46,7 +46,7 @@ st.markdown("""
         border-radius: 0.5rem;
         margin: 0.5rem 0;
     }
-        .readonly-box {
+    .readonly-box {
         background-color: #f0f2f6;
         border: 1px solid #ccc;
         border-radius: 6px;
@@ -55,7 +55,7 @@ st.markdown("""
         white-space: pre-wrap;
         word-wrap: break-word;
         overflow-y: auto;
-        height: 200px;
+        max-height: 300px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -219,34 +219,24 @@ def main():
             st.metric("Unique Words", f"{unique_words:,}")
         
         st.markdown("---")
-    # Display boxes
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("Sample Text (First Page)")
-        st.markdown(
-            f"<div class='readonly-box'>{st.session_state.df['text'].iloc[0][:500]}...</div>",
-            unsafe_allow_html=True
-        )
-    
-    with col2:
-        st.subheader("Cleaned Text (First Page)")
-        st.markdown(
-            f"<div class='readonly-box'>{st.session_state.df['clean_text'].iloc[0][:500]}...</div>",
-            unsafe_allow_html=True
-        )
-
         
+        # Display text samples
         col1, col2 = st.columns(2)
         with col1:
             st.subheader("Sample Text (First Page)")
-            st.markdown(f"<pre>{st.session_state.df['text'].iloc[0][:500]}...</pre>", unsafe_allow_html=True)
-
-
+            sample_text = st.session_state.df['text'].iloc[0][:500] + "..."
+            st.markdown(
+                f"<div class='readonly-box'>{sample_text}</div>",
+                unsafe_allow_html=True
+            )
         
         with col2:
             st.subheader("Cleaned Text (First Page)")
-            st.markdown(f"<pre>{st.session_state.df['clean_text'].iloc[0][:500]}...</pre>", unsafe_allow_html=True)
-
+            cleaned_text = st.session_state.df['clean_text'].iloc[0][:500] + "..."
+            st.markdown(
+                f"<div class='readonly-box'>{cleaned_text}</div>",
+                unsafe_allow_html=True
+            )
     
     with tab2:
         st.markdown('<h2 class="sub-header">Sentiment Analysis</h2>', unsafe_allow_html=True)
@@ -304,7 +294,7 @@ def main():
             hue=st.session_state.word_freq.index,
             legend=False
         )
-        ax.set_title("Top Frequent Words", fontsize=16, fontweight='bold')
+        ax.set_title("Top 20 Frequent Words", fontsize=16, fontweight='bold')
         ax.set_xlabel("Frequency", fontsize=12)
         ax.set_ylabel("Words", fontsize=12)
         plt.tight_layout()
@@ -334,10 +324,9 @@ def main():
         
         # Word frequency table
         st.subheader("Word Frequency Table")
-        st.dataframe(
-            st.session_state.word_freq.reset_index().rename(columns={'index': 'Word', 'count': 'Frequency'}),
-            use_container_width=True
-        )
+        freq_df = st.session_state.word_freq.reset_index()
+        freq_df.columns = ['Word', 'Frequency']
+        st.dataframe(freq_df, use_container_width=True)
     
     with tab4:
         st.markdown('<h2 class="sub-header">Topic Modeling (LDA)</h2>', unsafe_allow_html=True)
@@ -429,12 +418,11 @@ def main():
             elif data_choice == "Cleaned Text":
                 st.dataframe(st.session_state.df.head(10), use_container_width=True)
             elif data_choice == "Word Frequency":
-                st.dataframe(st.session_state.word_freq.head(10), use_container_width=True)
+                freq_preview = st.session_state.word_freq.head(10).reset_index()
+                freq_preview.columns = ['Word', 'Frequency']
+                st.dataframe(freq_preview, use_container_width=True)
             else:
                 st.dataframe(st.session_state.topic_df, use_container_width=True)
 
 if __name__ == "__main__":
-
     main()
-
-
