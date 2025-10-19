@@ -46,6 +46,17 @@ st.markdown("""
         border-radius: 0.5rem;
         margin: 0.5rem 0;
     }
+        .readonly-box {
+        background-color: #f0f2f6;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 10px;
+        font-family: "Source Code Pro", monospace;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-y: auto;
+        height: 200px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -208,6 +219,22 @@ def main():
             st.metric("Unique Words", f"{unique_words:,}")
         
         st.markdown("---")
+    # Display boxes
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("Sample Text (First Page)")
+        st.markdown(
+            f"<div class='readonly-box'>{st.session_state.df['text'].iloc[0][:500]}...</div>",
+            unsafe_allow_html=True
+        )
+    
+    with col2:
+        st.subheader("Cleaned Text (First Page)")
+        st.markdown(
+            f"<div class='readonly-box'>{st.session_state.df['clean_text'].iloc[0][:500]}...</div>",
+            unsafe_allow_html=True
+        )
+
         
         col1, col2 = st.columns(2)
         with col1:
@@ -409,4 +436,5 @@ def main():
 if __name__ == "__main__":
 
     main()
+
 
